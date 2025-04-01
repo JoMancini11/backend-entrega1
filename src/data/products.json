@@ -1,0 +1,15 @@
+[
+  {
+    "id": "1743548568249",
+    "title": "Monitor",
+    "description": "Monitor Full HD 24 pulgadas",
+    "code": "MON123",
+    "price": 4200,
+    "status": true,
+    "stock": 25,
+    "category": "Pantallas",
+    "thumbnails": [
+      "img/monitor.png"
+    ]
+  }
+]
