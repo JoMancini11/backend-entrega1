@@ -1,10 +1,10 @@
 import fs from 'fs';
 import ProductManager from './ProductManager.js';
 
-const productManager = new ProductManager('./src/data/products.json');
+const productManager = new ProductManager(); // ya tiene su path por defecto
 
 export default class CartManager {
-  constructor(path) {
+  constructor(path = './src/data/carts.json') {
     this.path = path;
     if (!fs.existsSync(this.path)) fs.writeFileSync(this.path, '[]');
   }

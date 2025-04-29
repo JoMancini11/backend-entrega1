@@ -11,5 +11,16 @@
     "thumbnails": [
       "img/monitor.png"
     ]
+  },
+  {
+    "id": "1745966648215",
+    "title": "Teclado",
+    "price": 1200,
+    "description": "Teclado mecánico de tu mama",
+    "code": "emwxgtp0iwj",
+    "stock": 10,
+    "status": true,
+    "category": "general",
+    "thumbnails": []
   }
 ]

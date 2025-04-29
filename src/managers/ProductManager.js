@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export default class ProductManager {
-  constructor(path) {
+  constructor(path = './src/data/products.json') {
     this.path = path;
     if (!fs.existsSync(this.path)) fs.writeFileSync(this.path, '[]');
   }
@@ -16,6 +16,17 @@ export default class ProductManager {
 
   addProduct(product) {
     const products = this.getProducts();
+
+    // Validación básica
+    if (!product.title || !product.description || !product.price || !product.code) {
+      return { error: 'Faltan campos obligatorios: title, description, price o code' };
+    }
+
+    // Validar código único
+    if (products.some(p => p.code === product.code)) {
+      return { error: 'Ya existe un producto con ese código' };
+    }
+
     const id = Date.now().toString();
     const newProduct = { id, ...product };
     products.push(newProduct);

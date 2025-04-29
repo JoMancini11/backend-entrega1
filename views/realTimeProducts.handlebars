@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Productos en Tiempo Real</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    #contador { margin-bottom: 10px; }
+    #alerta { color: green; font-weight: bold; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>Productos en Tiempo Real</h1>
+
+  <div id="alerta"></div>
+  <div id="contador">Total de productos: {{products.length}}</div>
+
+  <form id="form-agregar">
+    <input type="text" id="title" placeholder="Título" required />
+    <input type="number" id="price" placeholder="Precio" required />
+    <input type="text" id="description" placeholder="Descripción" required />
+    <button type="submit">Agregar</button>
+  </form>
+
+  <ul id="lista-productos">
+    {{#each products}}
+      <li data-id="{{id}}">
+        <strong>{{title}}</strong> - ${{price}}<br>{{description}}
+        <button onclick="eliminarProducto('{{id}}')">Eliminar</button>
+      </li>
+    {{/each}}
+  </ul>
+
+  <script>
+    const socket = io();
+    const form = document.getElementById('form-agregar');
+    const alerta = document.getElementById('alerta');
+    const contador = document.getElementById('contador');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {
+        title: document.getElementById('title').value,
+        price: parseFloat(document.getElementById('price').value),
+        description: document.getElementById('description').value,
+        code: Math.random().toString(36).slice(2),
+        stock: 10,
+        status: true,
+        category: 'general',
+        thumbnails: []
+      };
+      socket.emit('nuevoProducto', data);
+      form.reset();
+    });
+
+    function eliminarProducto(id) {
+      socket.emit('eliminarProducto', id);
+    }
+
+    function mostrarAlerta(mensaje, color = 'green') {
+      alerta.textContent = mensaje;
+      alerta.style.color = color;
+      setTimeout(() => alerta.textContent = '', 3000);
+    }
+
+    socket.on('productosActualizados', productos => {
+      const lista = document.getElementById('lista-productos');
+      lista.innerHTML = '';
+      productos.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${p.title}</strong> - $${p.price}<br>${p.description}
+                        <button onclick="eliminarProducto('${p.id}')">Eliminar</button>`;
+        lista.appendChild(li);
+      });
+      contador.textContent = `Total de productos: ${productos.length}`;
+      mostrarAlerta('Lista de productos actualizada');
+    });
+  </script>
+</body>
+</html>

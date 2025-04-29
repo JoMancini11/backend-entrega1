@@ -15,8 +15,10 @@ router.get('/:pid', (req, res) => {
 
 router.post('/', (req, res) => {
   const result = productManager.addProduct(req.body);
+  if (result.error) return res.status(400).json(result);
   res.status(201).json(result);
 });
+
 
 router.put('/:pid', (req, res) => {
   const result = productManager.updateProduct(req.params.pid, req.body);
