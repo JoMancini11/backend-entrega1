@@ -17,17 +17,17 @@
   <div id="contador">Total de productos: {{products.length}}</div>
 
   <form id="form-agregar">
-    <input type="text" id="title" placeholder="Título" required />
-    <input type="number" id="price" placeholder="Precio" required />
-    <input type="text" id="description" placeholder="Descripción" required />
+    <input type="text" id="title" placeholder="Título" required>
+    <input type="number" id="price" placeholder="Precio" required>
+    <input type="text" id="description" placeholder="Descripción" required>
     <button type="submit">Agregar</button>
   </form>
 
   <ul id="lista-productos">
     {{#each products}}
-      <li data-id="{{id}}">
+      <li data-id="{{_id}}">
         <strong>{{title}}</strong> - ${{price}}<br>{{description}}
-        <button onclick="eliminarProducto('{{id}}')">Eliminar</button>
+        <button onclick="eliminarProducto('{{_id}}')">Eliminar</button>
       </li>
     {{/each}}
   </ul>
@@ -70,7 +70,7 @@
       productos.forEach(p => {
         const li = document.createElement('li');
         li.innerHTML = `<strong>${p.title}</strong> - $${p.price}<br>${p.description}
-                        <button onclick="eliminarProducto('${p.id}')">Eliminar</button>`;
+                        <button onclick="eliminarProducto('${p._id}')">Eliminar</button>`;
         lista.appendChild(li);
       });
       contador.textContent = `Total de productos: ${productos.length}`;

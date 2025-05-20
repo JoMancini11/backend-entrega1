@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    ul { list-style: none; padding: 0; }
+    li { border-bottom: 1px solid #ccc; padding: 10px 0; }
+    .empty { color: #888; }
+  </style>
+</head>
+<body>
+  <h1>Carrito ID: {{cart._id}}</h1>
+
+  {{#if cart.products.length}}
+    <ul>
+      {{#each cart.products}}
+        <li>
+          <strong>{{this.product.title}}</strong> - Cantidad: {{this.quantity}}<br>
+          Precio unitario: ${{this.product.price}}<br>
+          Categoría: {{this.product.category}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p class="empty">🛒 El carrito está vacío.</p>
+  {{/if}}
+</body>
+</html>
